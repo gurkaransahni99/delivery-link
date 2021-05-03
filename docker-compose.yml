@@ -9,9 +9,9 @@ services:
       - ./chainlink:/chainlink
     env_file:
       - ./chainlink/chainlink-dev.env
-      - ./truffle/build/addrs.env
+      # - ./truffle/build/addrs.env
     environment:
-      - ETH_URL=ws://${HOST_IP}:7545
+      - ETH_URL=192.168.0.255:8545
     command: local n -p /chainlink/chainlink.pwd -a /chainlink/api.pwd
 
   easypost:

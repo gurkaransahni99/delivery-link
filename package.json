@@ -6,7 +6,7 @@
     "chainlink:logs": "docker logs $(docker ps --filter \"NAME=chainlink\" --format \"{{.ID}}\")",
     "remix": "npx remixd -s . --remix-ide https://remix.ethereum.org",
     "remix:chainlink": "npx remixd -s ./node_modules/chainlink/contracts --remix-ide https://remix.ethereum.org",
-    "start": "npm stop ; npm run truffle:migrate-ganache && HOST_IP=$(ip -4 addr show docker0 | grep -Po 'inet \\K[\\d.]+') docker-compose up -d && npm run truffle:init-setup",
+    "start": "docker-compose down && docker-compose up",
     "stop": "docker-compose down",
     "test": "npm run truffle:test",
     "truffle:add-jobs": "cd ./truffle && npx truffle exec ./scripts/add-jobs.js --network ganache && cd ..",
@@ -27,9 +27,12 @@
   },
   "homepage": "https://github.com/danforbes/delivery-link#readme",
   "dependencies": {
+    "@chainlink/contracts": "^0.1.7",
+    "@openzeppelin/contracts": "^3.2.0",
     "chainlink": "^0.7.8",
     "link_token": "^1.0.6",
     "remixd": "^0.1.8-alpha.14",
+    "sha3": "^2.1.4",
     "truffle": "^5.0.43"
   }
 }
