@@ -1,17 +1,32 @@
 version: '3'
 
 services:
+  pg_chainlink:
+    image: "postgres"
+    ports:
+      - "5433:5433"
+    env_file:
+      - ./chainlink/database.env
+    volumes:
+      # [PATH_TO_POSTGRES_DATA]:/var/lib/postgressql/data/
+      - /Library/PostgreSQL/13/data/:/var/lib/postgressql/data/
+
   chainlink:
     image: "smartcontract/chainlink"
     ports:
       - "6688:6688"
     volumes:
       - ./chainlink:/chainlink
+    depends_on:
+      - pg_chainlink
     env_file:
       - ./chainlink/chainlink-dev.env
       # - ./truffle/build/addrs.env
     environment:
-      - ETH_URL=192.168.0.255:8545
+      - ETH_URL=ws://host.docker.internal:8545
+    volumes:
+      # [PATH_TO_REPO_CHAINLINK_VOLUME]:/chainlink/
+      - /Users/gurkaransahni/Projects/delivery-link/chainlink/:/chainlink/
     command: local n -p /chainlink/chainlink.pwd -a /chainlink/api.pwd
 
   easypost:

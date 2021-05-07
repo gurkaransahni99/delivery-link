@@ -6,7 +6,7 @@
     "chainlink:logs": "docker logs $(docker ps --filter \"NAME=chainlink\" --format \"{{.ID}}\")",
     "remix": "npx remixd -s . --remix-ide https://remix.ethereum.org",
     "remix:chainlink": "npx remixd -s ./node_modules/chainlink/contracts --remix-ide https://remix.ethereum.org",
-    "start": "docker-compose down && docker-compose up",
+    "start": "npm stop ; npm run truffle:migrate-ganache && HOST_IP=host.docker.internal docker-compose up -d && npm run truffle:init-setup",
     "stop": "docker-compose down",
     "test": "npm run truffle:test",
     "truffle:add-jobs": "cd ./truffle && npx truffle exec ./scripts/add-jobs.js --network ganache && cd ..",
